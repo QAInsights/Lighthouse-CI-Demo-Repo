@@ -1,17 +1,17 @@
-name: CI
-
-on: [push]
-
+name: Lighthouse
+on: push # For every push, this action will be triggered
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  lighthouse:
+    runs-on: ubuntu-latest #OS
     steps:
-    - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+      - uses: actions/checkout@v1
+      - name: Audit URLs using Lighthouse
+        uses: treosh/lighthouse-ci-action@v2
+        with:
+          urls:
+            https://qainsights.github.io/Lighthouse-CI-Demo-Repo/
+      - name: Save results
+        uses: actions/upload-artifact@v1
+        with:
+          name: lighthouse-results
+          path: '.lighthouseci' # This will save the Lighthouse results as .json files
